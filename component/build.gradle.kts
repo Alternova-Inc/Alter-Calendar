@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("maven-publish")
 }
 
 android {
@@ -30,14 +31,30 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    android {
+        publishing {
+            singleVariant("release") {
+                withSourcesJar()
+            }
+        }
+    }
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("alter-calendar") {
+            groupId = "com.alternova.components"
+            artifactId = "alter-calendar"
+            version = "0.0.1"
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
