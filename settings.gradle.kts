@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AlterDesign"
+rootProject.name = "alter-calendar"
 include(":app")
 include(":component")
