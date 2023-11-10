@@ -51,7 +51,7 @@ publishing {
         create<MavenPublication>("alter-calendar") {
             groupId = "com.alternova.components"
             artifactId = "alter-calendar"
-            version = "0.1.5"
+            version = "0.1.6"
             afterEvaluate {
                 from(components["release"])
             }
