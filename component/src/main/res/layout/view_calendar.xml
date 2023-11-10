@@ -22,11 +22,13 @@
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@id/titleCalendar" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/bodyComplexCalendar"
+    <com.alternova.component.complex.ComplexCalendarComponent
+        android:id="@+id/complexCalendar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleCalendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
