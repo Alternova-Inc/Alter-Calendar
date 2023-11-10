@@ -25,14 +25,16 @@ class CalendarSingleAdapter(
         private val numberDay: TextView = view.findViewById(R.id.numberDay)
 
         fun bind(calendarDate: CalendarDate) {
-            containerDay.setOnClickListener { onAction.invoke(calendarDate) }
+            if (calendarDate.controller.dayEnabled) {
+                containerDay.setOnClickListener { onAction.invoke(calendarDate) }
+            }
             buildTitle(calendarDate)
             buildNumber(calendarDate)
             changeColor(calendarDate)
         }
 
         private fun buildTitle(calendarDate: CalendarDate) {
-            if (calendarDate.showTitle) {
+            if (calendarDate.controller.showTitle) {
                 nameDay.visibility = View.VISIBLE
                 nameDay.text = calendarDate.getNameDayOfWeek()
             } else {
@@ -45,7 +47,7 @@ class CalendarSingleAdapter(
         }
 
         private fun changeColor(calendarDate: CalendarDate) {
-            if (calendarDate.isSelectedDay) {
+            if (calendarDate.controller.isSelectedDay) {
                 nameDay.setTypeface(null, BOLD)
                 backgroundDay.isVisible = true
                 numberDay.setTextColor(Color.WHITE)
@@ -53,7 +55,9 @@ class CalendarSingleAdapter(
             }
             nameDay.setTypeface(null, NORMAL)
             backgroundDay.isVisible = false
-            val colorNumber = if (calendarDate.isCurrentMonth) Color.BLACK else Color.GRAY
+            var colorNumber = if (calendarDate.controller.isCurrentMonth) Color.BLACK
+            else Color.GRAY
+            colorNumber = if (calendarDate.controller.dayEnabled) colorNumber else Color.RED
             numberDay.setTextColor(colorNumber)
         }
     }

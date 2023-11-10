@@ -16,18 +16,17 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="October" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/bodySingleCalendar"
+    <com.alternova.component.single.SingleCalendarComponent
+        android:id="@+id/singleCalendar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_day_calendar"
         app:layout_constraintTop_toBottomOf="@id/titleCalendar" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/bodyComplexCalendar"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/titleCalendar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
