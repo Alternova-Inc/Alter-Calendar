@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.alternova.component.CalendarListener
 import com.alternova.component.CalendarView
 import com.alternova.component.model.CalendarDate
+import java.time.LocalDate
 
 class MainActivity : AppCompatActivity(), CalendarListener {
 
@@ -13,6 +14,7 @@ class MainActivity : AppCompatActivity(), CalendarListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val calendarView: CalendarView = findViewById(R.id.calendar)
+        calendarView.setStartCalendar(LocalDate.now().minusDays(20))
         calendarView.addOnCalendarListener(this)
     }
 

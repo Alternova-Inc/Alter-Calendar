@@ -8,15 +8,16 @@ data class CalendarDate(
     val year: Int,
     val month: Int,
     val dayOfMonth: Int,
-    var isSelectedDay: Boolean,
-    val showTitle: Boolean = true,
-    val isCurrentMonth: Boolean = true
+    internal val controller: CalendarController,
 ) {
 
     fun getLocalDate(): LocalDate = LocalDate.of(year, month, dayOfMonth)
-    fun getNameDayOfWeek(): String = getLocalDate().dayOfWeek
+    internal fun getNameDayOfWeek(): String = getLocalDate().dayOfWeek
         .getDisplayName(TextStyle.SHORT, Locale.getDefault())
 
-    fun isEqualsToOtherDate(year: Int, month: Int, dayOfMonth: Int): Boolean =
+    internal fun getNameMont(): String = getLocalDate().month
+        .getDisplayName(TextStyle.FULL, Locale.getDefault())
+
+    internal fun isEqualsToOtherDate(year: Int, month: Int, dayOfMonth: Int): Boolean =
         this.year == year && this.month == month && this.dayOfMonth == dayOfMonth
 }

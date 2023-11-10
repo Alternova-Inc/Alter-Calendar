@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CalendarView">
+        <attr name="show_futureDays" format="boolean" />
+        <attr name="show_daysPriorToTheStartOfTheCalendar" format="boolean" />
+        <attr name="initWith" format="enum">
+            <enum name="simple" value="0" />
+            <enum name="complex" value="1" />
+        </attr>
+    </declare-styleable>
+</resources>
