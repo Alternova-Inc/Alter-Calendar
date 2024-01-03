@@ -20,4 +20,14 @@ data class CalendarDate(
 
     internal fun isEqualsToOtherDate(year: Int, month: Int, dayOfMonth: Int): Boolean =
         this.year == year && this.month == month && this.dayOfMonth == dayOfMonth
+
+    companion object {
+        fun setLocalDate(localDate: LocalDate): CalendarDate {
+            val day = localDate.dayOfMonth
+            val month = localDate.monthValue
+            val year = localDate.year
+            val calendarController = CalendarController(true)
+            return CalendarDate(day, month, year, calendarController)
+        }
+    }
 }

@@ -56,7 +56,11 @@ class CalendarView(
     fun setStartCalendar(initialDate: LocalDate) {
         this.initialDate = initialDate
         initSingleCalendar()
-        initComplexCalendar()
+    }
+
+    fun updateDateCalendar(localDate: LocalDate) {
+        val date = CalendarDate.setLocalDate(localDate)
+        selectedDay(date)
     }
 
     private fun startInLastSunday(): LocalDate {
@@ -128,4 +132,5 @@ class CalendarView(
         singleCalendar.updateSelectedDay(date)
         complexCalendar.updateSelectedDay(date)
     }
+
 }

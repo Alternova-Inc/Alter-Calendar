@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.alternova.component"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 28
@@ -25,11 +25,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
     android {
         publishing {
@@ -39,6 +39,14 @@ android {
         }
     }
 }
+
+tasks.register("createAar", Copy::class) {
+    from("build/intermediates/local_aar_for_lint/release/")
+    into("build/outputs/aar/")
+    include("classes.jar", "**/*.aar")
+}
+
+tasks.getByName("build").dependsOn("createAar")
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")

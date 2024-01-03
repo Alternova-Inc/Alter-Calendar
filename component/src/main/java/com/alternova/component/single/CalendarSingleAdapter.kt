@@ -55,7 +55,9 @@ class CalendarSingleAdapter(
             }
             nameDay.setTypeface(null, NORMAL)
             backgroundDay.isVisible = false
-            val colorNumber = if (calendarDate.controller.isCurrentMonth) Color.BLACK
+            var colorNumber = if (calendarDate.controller.isCurrentMonth) Color.BLACK
+            else Color.GRAY
+            colorNumber = if (calendarDate.controller.dayEnabled) colorNumber
             else Color.GRAY
             numberDay.setTextColor(colorNumber)
         }

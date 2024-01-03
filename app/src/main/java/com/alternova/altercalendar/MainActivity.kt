@@ -16,6 +16,7 @@ class MainActivity : AppCompatActivity(), CalendarListener {
         val calendarView: CalendarView = findViewById(R.id.calendar)
         calendarView.setStartCalendar(LocalDate.now().minusDays(20))
         calendarView.addOnCalendarListener(this)
+//        calendarView.updateDateCalendar(LocalDate.now())
     }
 
     override fun onSelectedDate(date: CalendarDate) {
