@@ -5,15 +5,11 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.viewpager2.widget.ViewPager2
 import com.alternova.component.common.ControllerListener
-import com.alternova.component.complex.CalendarComplexAdapter
 import com.alternova.component.complex.ComplexCalendarComponent
-import com.alternova.component.complex.model.ComplexCalendarDate
-import com.alternova.component.model.CalendarController
 import com.alternova.component.model.CalendarDate
+import com.alternova.component.single.CalendarSingleAdapter
 import com.alternova.component.single.SingleCalendarComponent
-import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -36,6 +32,10 @@ class CalendarView(
     private lateinit var singleCalendar: SingleCalendarComponent
     private lateinit var complexCalendar: ComplexCalendarComponent
 
+    private val calendarAdapter by lazy {
+        CalendarSingleAdapter(mutableListOf()) { Unit }
+    }
+
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CalendarView, 0, 0)
             .apply {
@@ -53,14 +53,9 @@ class CalendarView(
         initView()
     }
 
-    fun setStartCalendar(initialDate: LocalDate) {
+    fun setStartCalendar(initialDate: LocalDate, isViewByWeek: Boolean) {
         this.initialDate = initialDate
-        initSingleCalendar()
-    }
-
-    fun updateDateCalendar(localDate: LocalDate) {
-        val date = CalendarDate.setLocalDate(localDate)
-        selectedDay(date)
+        initSingleCalendar(isViewByWeek)
     }
 
     private fun startInLastSunday(): LocalDate {
@@ -85,8 +80,10 @@ class CalendarView(
     private fun getMonthNameToShow(pivotDate: LocalDate = startDayOfWeek) =
         pivotDate.month.getDisplayName(TextStyle.FULL, Locale.getDefault())
 
-    private fun initSingleCalendar() {
+    private fun initSingleCalendar(isViewByWeek: Boolean = true) {
         singleCalendar = findViewById(R.id.singleCalendar)
+        singleCalendar.setScrollAvailability(isViewByWeek)
+        calendarAdapter.changeViewByWeek(isViewByWeek)
         singleCalendar.setInitCalendarDate(initialDate)
         singleCalendar.addOnControllerListener(this)
     }

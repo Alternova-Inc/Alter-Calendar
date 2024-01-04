@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alternova.component.R
 import com.alternova.component.common.BaseCalendarComponent
-import com.alternova.component.common.ControllerListener
 import com.alternova.component.model.CalendarController
 import com.alternova.component.model.CalendarDate
 import java.time.LocalDate
@@ -25,6 +24,8 @@ internal class SingleCalendarComponent(
     private val calendarRecycler by lazy { findViewById<RecyclerView>(R.id.dates) }
     private val currentDate by lazy { LocalDate.now() }
 
+    private var isScrolledAvailable: Boolean = true
+
     init {
         initView()
         initRecycler()
@@ -37,9 +38,11 @@ internal class SingleCalendarComponent(
     }
 
     override fun initData() {
-        val dayOfWeek = currentDate.dayOfWeek.getDayOfWeek() + 2
+        val plusPivot = if (isScrolledAvailable) 0 else 2
+        val dayOfWeek = currentDate.dayOfWeek.getDayOfWeek() + plusPivot
         val startCalendar = currentDate.minusDays(dayOfWeek.toLong())
-        repeat(START_WEEK_PIVOT) {
+        val startWeekPivot = if (isScrolledAvailable) 7 else 9
+        repeat(startWeekPivot) {
             val date = startCalendar.plusDays(it.toLong())
             val controller = CalendarController(
                 isSelectedDay = date.isEqual(currentDate),
@@ -70,6 +73,9 @@ internal class SingleCalendarComponent(
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 notifyParentChangeMonthName(recyclerView)
+                if (isScrolledAvailable) {
+                    return
+                }
                 val directionLeft = -1
                 if (recyclerView.canScrollHorizontally(directionLeft).not()) {
                     addStartDays()
@@ -91,7 +97,7 @@ internal class SingleCalendarComponent(
         val firstDate = dates.firstOrNull()?.getLocalDate() ?: return
         var pivot = 6
         run repeatBlock@{
-            repeat(START_WEEK_PIVOT) {index->
+            repeat(START_WEEK_PIVOT) { index ->
                 val date = firstDate.minusDays(index.toLong() + 1)
                 if (date.isBefore(initDate)) return@repeatBlock
                 val isBeforeCurrentDate = date.isAfter(currentDate).not()
@@ -138,5 +144,9 @@ internal class SingleCalendarComponent(
                 }
             }
         }
+    }
+
+    fun setScrollAvailability(isScrolledAvailable: Boolean) {
+        this.isScrolledAvailable = isScrolledAvailable
     }
 }

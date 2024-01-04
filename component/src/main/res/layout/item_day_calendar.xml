@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/containerDay"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="5dp"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="5dp">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/nameDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:layout_marginHorizontal="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/constraintInternal"
         tools:text="Sun" />
 
+    <View
+        android:id="@+id/backgroundWeek"
+        android:layout_width="59dp"
+        android:layout_height="25dp"
+        android:background="@drawable/default_background"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameDay"
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintInternal"
         android:layout_width="25dp"
-        android:layout_height="25dp">
+        android:layout_height="25dp"
+        app:layout_constraintTop_toBottomOf="@+id/nameDay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <View
             android:id="@+id/backgroundDay"
@@ -43,4 +60,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
