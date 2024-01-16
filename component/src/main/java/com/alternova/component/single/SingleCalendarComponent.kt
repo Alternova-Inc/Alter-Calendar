@@ -148,5 +148,6 @@ internal class SingleCalendarComponent(
 
     fun setScrollAvailability(isScrolledAvailable: Boolean) {
         this.isScrolledAvailable = isScrolledAvailable
+        calendarAdapter.changeViewByWeek(isScrolledAvailable)
     }
 }

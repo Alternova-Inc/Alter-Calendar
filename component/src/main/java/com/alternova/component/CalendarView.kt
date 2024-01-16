@@ -32,10 +32,6 @@ class CalendarView(
     private lateinit var singleCalendar: SingleCalendarComponent
     private lateinit var complexCalendar: ComplexCalendarComponent
 
-    private val calendarAdapter by lazy {
-        CalendarSingleAdapter(mutableListOf()) { Unit }
-    }
-
     init {
         context.theme.obtainStyledAttributes(attrs, R.styleable.CalendarView, 0, 0)
             .apply {
@@ -83,7 +79,6 @@ class CalendarView(
     private fun initSingleCalendar(isViewByWeek: Boolean = true) {
         singleCalendar = findViewById(R.id.singleCalendar)
         singleCalendar.setScrollAvailability(isViewByWeek)
-        calendarAdapter.changeViewByWeek(isViewByWeek)
         singleCalendar.setInitCalendarDate(initialDate)
         singleCalendar.addOnControllerListener(this)
     }
