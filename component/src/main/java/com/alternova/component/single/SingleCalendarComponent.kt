@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alternova.component.R
 import com.alternova.component.common.BaseCalendarComponent
+import com.alternova.component.common.getDayOfWeek
 import com.alternova.component.model.CalendarController
 import com.alternova.component.model.CalendarDate
 import java.time.LocalDate

@@ -52,6 +52,7 @@ class CalendarView(
     fun setStartCalendar(initialDate: LocalDate, isViewByWeek: Boolean) {
         this.initialDate = initialDate
         initSingleCalendar(isViewByWeek)
+        initComplexCalendar(isViewByWeek)
     }
 
     private fun startInLastSunday(): LocalDate {
@@ -109,10 +110,11 @@ class CalendarView(
         complexCalendar.addOnCalendarListener(calendarListener)
     }
 
-    private fun initComplexCalendar() {
+    private fun initComplexCalendar(isViewByWeek: Boolean = true) {
         complexCalendar = findViewById(R.id.complexCalendar)
         complexCalendar.setInitCalendarDate(initialDate)
         complexCalendar.addOnControllerListener(this)
+        complexCalendar.setScrollAvailability(isViewByWeek)
     }
 
     override fun changeMonth(nameMonth: String) {

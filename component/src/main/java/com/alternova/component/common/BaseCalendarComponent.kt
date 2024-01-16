@@ -27,15 +27,6 @@ internal abstract class BaseCalendarComponent(
     protected abstract fun initData()
     protected abstract fun addListener()
     protected abstract fun notifyAdapter(onMoveToPosition: () -> Unit)
-    protected fun DayOfWeek.getDayOfWeek(): Int = when (this) {
-        DayOfWeek.SUNDAY -> 0
-        DayOfWeek.MONDAY -> 1
-        DayOfWeek.TUESDAY -> 2
-        DayOfWeek.WEDNESDAY -> 3
-        DayOfWeek.THURSDAY -> 4
-        DayOfWeek.FRIDAY -> 5
-        DayOfWeek.SATURDAY -> 6
-    }
 
     fun addOnCalendarListener(calendarListener: CalendarListener) {
         this.calendarListener = calendarListener
@@ -47,4 +38,13 @@ internal abstract class BaseCalendarComponent(
 
     abstract fun setInitCalendarDate(initDate: LocalDate?)
     abstract fun updateSelectedDay(selectedDay: CalendarDate)
+}
+fun DayOfWeek.getDayOfWeek(): Int = when (this) {
+    DayOfWeek.SUNDAY -> 0
+    DayOfWeek.MONDAY -> 1
+    DayOfWeek.TUESDAY -> 2
+    DayOfWeek.WEDNESDAY -> 3
+    DayOfWeek.THURSDAY -> 4
+    DayOfWeek.FRIDAY -> 5
+    DayOfWeek.SATURDAY -> 6
 }

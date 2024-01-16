@@ -11,6 +11,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.alternova.component.R
+import com.alternova.component.common.getDayOfWeek
 import com.alternova.component.model.CalendarDate
 
 class CalendarSingleAdapter(
@@ -77,45 +78,31 @@ class CalendarSingleAdapter(
                 }
             }
         }
-
-        fun borderEnd(isViewByWeek: Boolean) {
-            if (isViewByWeek) {
-                numberDay.setTextColor(Color.BLACK)
-                backgroundWeek.isVisible = true
-                backgroundDay.isVisible = false
-                backgroundWeek.setBackgroundResource(R.drawable.right_background)
-            } else {
-                backgroundInvisible()
-            }
+        fun borderEnd() {
+            numberDay.setTextColor(Color.BLACK)
+            backgroundWeek.isVisible = true
+            backgroundDay.isVisible = false
+            backgroundWeek.setBackgroundResource(R.drawable.right_background)
         }
 
-        fun borderStart(isViewByWeek: Boolean) {
-            if (isViewByWeek) {
-                numberDay.setTextColor(Color.BLACK)
-                backgroundWeek.isVisible = true
-                backgroundDay.isVisible = false
-                backgroundWeek.setBackgroundResource(R.drawable.left_background)
-            } else {
-                backgroundInvisible()
-            }
+        fun borderStart() {
+            numberDay.setTextColor(Color.BLACK)
+            backgroundWeek.isVisible = true
+            backgroundDay.isVisible = false
+            backgroundWeek.setBackgroundResource(R.drawable.left_background)
         }
 
-        fun borderDefault(isViewByWeek: Boolean) {
-            if (isViewByWeek) {
-                numberDay.setTextColor(Color.BLACK)
-                backgroundWeek.isVisible = true
-                backgroundDay.isVisible = false
-                backgroundWeek.setBackgroundResource(R.drawable.default_background)
-            } else {
-                backgroundInvisible()
-            }
+        fun borderDefault() {
+            numberDay.setTextColor(Color.BLACK)
+            backgroundWeek.isVisible = true
+            backgroundDay.isVisible = false
+            backgroundWeek.setBackgroundResource(R.drawable.default_background)
         }
 
         fun backgroundInvisible() {
             numberDay.setTextColor(Color.BLACK)
             backgroundWeek.isVisible = true
-            backgroundDay.isVisible = false
-            backgroundWeek.setBackgroundColor(Color.TRANSPARENT)
+            backgroundWeek.setBackgroundResource(R.drawable.transparent_background)
         }
 
     }
@@ -128,16 +115,29 @@ class CalendarSingleAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val day = array[position]
         holder.bind(day)
-        if (array.size == 7 && isViewByWeek) {
-            when (position) {
-                0 -> holder.borderStart(isViewByWeek)
-                1 -> holder.borderDefault(isViewByWeek)
-                2 -> holder.borderDefault(isViewByWeek)
-                3 -> holder.borderDefault(isViewByWeek)
-                4 -> holder.borderDefault(isViewByWeek)
-                5 -> holder.borderDefault(isViewByWeek)
-                6 -> holder.borderEnd(isViewByWeek)
-                else -> holder.backgroundInvisible()
+        run {
+            if (isViewByWeek) {
+                if (array.size == 7 && !day.controller.isDaySelectedInViewWeek) {
+                    when {
+                        (position == 0) -> holder.borderStart()
+                        (position in 1..5) -> holder.borderDefault()
+                        (position == 6) -> holder.borderEnd()
+                        else -> holder.backgroundInvisible()
+                    }
+                } else {
+                    holder.backgroundInvisible()
+                }
+                if (day.controller.isDaySelectedInViewWeek) {
+                    val localDate = day.getLocalDate().dayOfWeek.getDayOfWeek()
+                    when {
+                        localDate == 0 -> holder.borderStart()
+                        (localDate in 1..5) -> holder.borderDefault()
+                        (localDate == 6) -> holder.borderEnd()
+                        else -> holder.backgroundInvisible()
+                    }
+                }
+            } else {
+                holder.backgroundInvisible()
             }
         }
     }

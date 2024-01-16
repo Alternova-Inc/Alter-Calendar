@@ -14,6 +14,14 @@ internal class CalendarComplexAdapter(
     private val calendarDates: MutableList<ComplexCalendarDate>,
     private val onAction: (CalendarDate) -> Unit
 ) : RecyclerView.Adapter<CalendarComplexAdapter.ViewHolder>() {
+
+    private var isViewByWeek: Boolean = true
+
+    fun changeViewByWeek(isViewByWeek: Boolean) {
+        this.isViewByWeek = isViewByWeek
+        notifyDataSetChanged()
+    }
+
     class ViewHolder(view: View, onAction: (CalendarDate) -> Unit) : RecyclerView.ViewHolder(view) {
         private val calendarAdapter by lazy { CalendarSingleAdapter(mutableListOf(), onAction) }
         private val calendarRecycler by lazy { view.findViewById<RecyclerView>(R.id.calendarView) }

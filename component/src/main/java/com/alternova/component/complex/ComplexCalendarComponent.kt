@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import androidx.viewpager2.widget.ViewPager2
 import com.alternova.component.R
 import com.alternova.component.common.BaseCalendarComponent
+import com.alternova.component.common.getDayOfWeek
 import com.alternova.component.complex.model.ComplexCalendarDate
 import com.alternova.component.model.CalendarController
 import com.alternova.component.model.CalendarDate
@@ -19,6 +20,7 @@ internal class ComplexCalendarComponent(
 ) : BaseCalendarComponent(context, attrs) {
 
     private val complexDates: MutableList<ComplexCalendarDate> = mutableListOf()
+    private var isScrolledAvailable: Boolean = false
 
     private val calendarComplexAdapter by lazy {
         CalendarComplexAdapter(
@@ -54,6 +56,11 @@ internal class ComplexCalendarComponent(
         notifyAdapter { calendarPager.setCurrentItem(1, false) }
     }
 
+    fun setScrollAvailability(isScrolledAvailable: Boolean) {
+        this.isScrolledAvailable = isScrolledAvailable
+        calendarComplexAdapter.changeViewByWeek(isScrolledAvailable)
+    }
+
     private fun buildData(pivotDate: LocalDate) {
         initDate?.apply { if (pivotDate.monthValue < this.monthValue) return }
         val dates = mutableListOf<CalendarDate>()
@@ -79,6 +86,18 @@ internal class ComplexCalendarComponent(
                 controller = controller,
             )
             dates.add(calendarDate)
+        }
+        if (isScrolledAvailable) {
+            var flagSelectedDay = 0
+            dates.forEachIndexed { index, calendarDate ->
+                if (calendarDate.controller.isSelectedDay) {
+                    flagSelectedDay = index - calendarDate.getLocalDate().dayOfWeek.getDayOfWeek()
+                }
+            }
+
+            for (index in flagSelectedDay..(flagSelectedDay + 6)) {
+                dates[index].controller.isDaySelectedInViewWeek = true
+            }
         }
         val complexCalendarDate = ComplexCalendarDate(
             date = pivotDate,
@@ -115,10 +134,24 @@ internal class ComplexCalendarComponent(
         complexDates.forEach { calendar ->
             calendar.days.forEach { day ->
                 day.controller.isSelectedDay = false
+                day.controller.isDaySelectedInViewWeek = false
             }
             calendar.days.find {
                 it.isEqualsToOtherDate(selectedDay.year, selectedDay.month, selectedDay.dayOfMonth)
             }?.controller?.isSelectedDay = true
+            if (isScrolledAvailable) {
+                var flagSelectedDay = 0
+                calendar.days.forEachIndexed { index, calendarDate ->
+                    if (calendarDate.controller.isSelectedDay) {
+                        flagSelectedDay =
+                            index - calendarDate.getLocalDate().dayOfWeek.getDayOfWeek()
+                    }
+                }
+
+                for (index in flagSelectedDay..(flagSelectedDay + 6)) {
+                    calendar.days[index].controller.isDaySelectedInViewWeek = true
+                }
+            }
         }
         calendarComplexAdapter.update(complexDates)
     }
