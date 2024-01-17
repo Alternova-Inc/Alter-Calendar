@@ -140,16 +140,17 @@ internal class ComplexCalendarComponent(
                 it.isEqualsToOtherDate(selectedDay.year, selectedDay.month, selectedDay.dayOfMonth)
             }?.controller?.isSelectedDay = true
             if (isScrolledAvailable) {
-                var flagSelectedDay = 0
+                var flagSelectedDay = -1
                 calendar.days.forEachIndexed { index, calendarDate ->
                     if (calendarDate.controller.isSelectedDay) {
                         flagSelectedDay =
                             index - calendarDate.getLocalDate().dayOfWeek.getDayOfWeek()
                     }
                 }
-
-                for (index in flagSelectedDay..(flagSelectedDay + 6)) {
-                    calendar.days[index].controller.isDaySelectedInViewWeek = true
+                if (flagSelectedDay >= 0) {
+                    for (index in flagSelectedDay..(flagSelectedDay + 6)) {
+                        calendar.days[index].controller.isDaySelectedInViewWeek = true
+                    }
                 }
             }
         }

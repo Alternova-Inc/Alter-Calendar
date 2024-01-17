@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity(), CalendarListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val calendarView: CalendarView = findViewById(R.id.calendar)
-        calendarView.setStartCalendar(LocalDate.now().minusDays(60), true)
+        calendarView.setStartCalendar(LocalDate.now().minusDays(10), true)
         calendarView.addOnCalendarListener(this)
     }
 
